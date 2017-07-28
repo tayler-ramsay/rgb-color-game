@@ -1,2 +1,4 @@
-# starter-project
-starter-project
+# simple starter-project
+
+type `gulp` from the root directory.
+
