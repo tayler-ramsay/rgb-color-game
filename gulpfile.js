@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var postcss = require('gulp-postcss');
 var sass = require('gulp-sass');
 var jshint = require('gulp-jshint');
 var concat = require('gulp-concat');
@@ -6,10 +7,24 @@ var imagemin = require('gulp-imagemin');
 var plumber = require('gulp-plumber');
 var notify = require('gulp-notify');
 var connect = require('gulp-connect');
+var autoprefixer = require('autoprefixer');
+var cssnano = require('cssnano');
+var postcssFontMagician = require('postcss-font-magician');
+var postcssColorblind = require('postcss-colorblind');
+var postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 
-gulp.task('default', ['connect','sass', 'js', 'img','html', 'watch']);// default task
 
-gulp.task('sass', function () {
+gulp.task('default', ['connect','css', 'js', 'img','html', 'watch']);// default task
+
+gulp.task('css', function () {
+    var processors = [
+        autoprefixer,
+        cssnano,
+        postcssFontMagician,
+        postcssColorblind,
+        postcssFlexbugsFixes
+
+    ];
 
     gulp.src('source/scss/**/*.scss')
 
@@ -19,12 +34,13 @@ gulp.task('sass', function () {
          outputStyle: 'compressed',
          includePaths: ['node_modules/susy/sass']
         }).on('error', sass.logError))
+        .pipe(postcss(processors))
 
         .pipe(gulp.dest('public/assets/css'))
 
         .pipe(connect.reload());
 
-});//sass task
+});//css task
 
 gulp.task('js', function () {
 
@@ -70,7 +86,7 @@ gulp.task('watch', function() {
 
 
   gulp.watch('source/javascript/**/*.js', ['js']);
-  gulp.watch('source/scss/**/*.scss', ['sass']);
+  gulp.watch('source/scss/**/*.scss', ['css']);
   gulp.watch(['*.html'], ['html']);
   gulp.watch('./assets/images/*.{png,jpg,gif}', ['img']);
 
