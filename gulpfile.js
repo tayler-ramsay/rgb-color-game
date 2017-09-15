@@ -50,7 +50,7 @@ gulp.src('source/javascript/**/*.js')
 
 .pipe(jshint())
 
-.pipe(jshint.reporter('fail'))
+.pipe(jshint.reporter('default'))
 
 .pipe(concat('scripts.js'))
 
