@@ -1,6 +1,4 @@
-# simple starter-project
-
-load all the dependencies for package.json
+# RGB color guessing game
 
 type `gulp` from the root directory.
 
